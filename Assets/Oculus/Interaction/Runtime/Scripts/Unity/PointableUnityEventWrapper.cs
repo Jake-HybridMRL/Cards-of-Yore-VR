@@ -51,7 +51,7 @@ namespace Oculus.Interaction
         [SerializeField]
         private UnityEvent<PointerEvent> _whenCancel;
 
-        public UnityEvent<PointerEvent> WhenRelease => _whenRelease;
+        public UnityEvent<PointerEvent> WhenRelease {get {return _whenRelease;} set {_whenRelease = value;}}
         public UnityEvent<PointerEvent> WhenHover => _whenHover;
         public UnityEvent<PointerEvent> WhenUnhover => _whenUnhover;
         public UnityEvent<PointerEvent> WhenSelect => _whenSelect;
