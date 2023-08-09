@@ -35,8 +35,7 @@ namespace Oculus.Interaction
         {
             this.AssertField(_target, nameof(_target));
             transform.SetParent(_target, _keepWorldPosition);
-            transform.localPosition = Vector3.Lerp(Vector3.zero, Vector3.right, 0.05f);
-
+            transform.localPosition = Vector3.zero;
         }
 
         #region Inject
