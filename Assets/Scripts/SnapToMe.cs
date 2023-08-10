@@ -42,12 +42,14 @@ public class SnapToMe : MonoBehaviour
         if(cardInSlot == true){
             Card.transform.position = transform.position;
             Card.transform.SetParent(transform);
+            Card.GetComponent<CardBehaviour>().cardInSlot = true;
         }
     }
 
         private void UnSnapToSlot(PointerEvent pointer){
         if(cardInSlot == false){
             Card.transform.SetParent(null);
+            Card.GetComponent<CardBehaviour>().cardInSlot = false;
         }
     }
 
