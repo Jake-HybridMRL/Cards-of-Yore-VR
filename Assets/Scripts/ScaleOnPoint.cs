@@ -7,7 +7,7 @@ public class ScaleOnPoint : MonoBehaviour
 {
     GameObject Card;
     Vector3 scaleChange = new Vector3(0.4f,0.8f,0.12f);
-    Vector3 initialScale = new Vector3(0.05f,0.1f,0.015f);
+    //Vector3 initialScale = new Vector3(0.05f,0.1f,0.015f);
     bool sizedUp = false;
 
 
@@ -22,39 +22,17 @@ public class ScaleOnPoint : MonoBehaviour
         // wrapper.WhenUnhover.RemoveListener(ReduceCard);
     }
 
-    private void SizeUpCard(Transform tran){
-        tran.localScale += scaleChange;
-    }
-
-    private void SizeDownCard(Transform tran){
-        tran.localScale -= scaleChange;
-    }
-
-        private void SizeOriginalCard(Transform tran){
-        tran.localScale = initialScale;
-    }
-
     void OnTriggerEnter(Collider trigCol){
-        if(trigCol.GetComponent<CardBehaviour>() != null && trigCol.gameObject.name == "Card" && trigCol.GetComponent<CardBehaviour>().cardInSlot){
-            SizeUpCard(trigCol.transform);
-            sizedUp = true;
+        if(trigCol.GetComponent<CardBehaviour>() != null && trigCol.gameObject.name == "Card" && trigCol.GetComponent<CardBehaviour>().cardInSlot && !trigCol.GetComponent<CardBehaviour>().isZoomed){
+            trigCol.GetComponent<CardBehaviour>().SizeUpCard(trigCol.transform);
         }
     }
 
         void OnTriggerExit(Collider trigCol){
-        if(trigCol.GetComponent<CardBehaviour>() != null && trigCol.gameObject.name == "Card" && trigCol.GetComponent<CardBehaviour>().cardInSlot){
-            SizeDownCard(trigCol.transform);
-            sizedUp = false;
-
-        }
-        if(Card.GetComponent<CardBehaviour>() != null && !Card.GetComponent<CardBehaviour>().cardInSlot){
-            SizeOriginalCard(trigCol.transform);
+        if(trigCol.GetComponent<CardBehaviour>() != null && trigCol.gameObject.name == "Card" && trigCol.GetComponent<CardBehaviour>().cardInSlot && trigCol.GetComponent<CardBehaviour>().isZoomed){
+            trigCol.GetComponent<CardBehaviour>().SizeDownCard(trigCol.transform);
         }
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
 }

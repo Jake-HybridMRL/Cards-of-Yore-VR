@@ -43,13 +43,19 @@ public class SnapToMe : MonoBehaviour
             Card.transform.position = transform.position;
             Card.transform.SetParent(transform);
             Card.GetComponent<CardBehaviour>().cardInSlot = true;
+
         }
     }
+
+
 
         private void UnSnapToSlot(PointerEvent pointer){
         if(cardInSlot == false){
             Card.transform.SetParent(null);
             Card.GetComponent<CardBehaviour>().cardInSlot = false;
+            Card.GetComponent<CardBehaviour>().SizeDownCard(Card.transform);
+            
+
         }
     }
 
