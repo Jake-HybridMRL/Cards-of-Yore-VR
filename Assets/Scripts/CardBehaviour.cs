@@ -8,17 +8,13 @@ public class CardBehaviour : MonoBehaviour
     public bool cardInSlot = false;
     public bool isZoomed = false;
     Vector3 scaleChange = new Vector3(0.4f,0.8f,0.12f);
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
+    [SerializeField]
+    CharacterData _thisCardData;
+    private static int _leftSatelliteCards, _wonderCards, _rightSatelliteCards = 0;
+    [SerializeField]
+    private GameObject _hologramObject = null;
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void ChangeKin(Rigidbody rig){
         if(!cardInSlot){
@@ -52,5 +48,40 @@ public class CardBehaviour : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Location")
+        {
+            if (other.gameObject.name == "Left satellite")
+            {
+                PositionCard(other.transform, _leftSatelliteCards);
+                GetComponent<Rigidbody>().useGravity = false;
+                GetComponent<Rigidbody>().isKinematic = true;
+                _leftSatelliteCards++;
+            }
+            else if (other.gameObject.name == "Right satellite")
+            {
+                PositionCard(other.transform, _rightSatelliteCards);
+                GetComponent<Rigidbody>().useGravity = false;
+                GetComponent<Rigidbody>().isKinematic = true;
 
+                _rightSatelliteCards++;
+            }
+            else if (other.gameObject.name == "Wonder")
+            {
+                PositionCard(other.transform, _wonderCards);
+                GetComponent<Rigidbody>().useGravity = false;
+                GetComponent<Rigidbody>().isKinematic = true;
+
+                _wonderCards++;
+            }
+        }
+    }
+
+    void PositionCard(Transform playZone, int currentCardCount)
+    {
+        Vector3 cardOffset = new Vector3(.15f, 0, 0);
+        Vector3 firstcardSlot = (playZone.position - cardOffset * 2 + new Vector3(0, 0.1f, 0));
+        transform.position = firstcardSlot + cardOffset * currentCardCount;
+    }
 }
