@@ -43,8 +43,8 @@ public class SnapToMe : MonoBehaviour
             Card.transform.position = transform.position;
             Card.transform.SetParent(transform);
             Card.GetComponent<CardBehaviour>().cardInSlot = true;
-
         }
+        Card.GetComponent<CardBehaviour>().ChangeKin(Card.GetComponent<Rigidbody>());
     }
 
 
@@ -55,8 +55,7 @@ public class SnapToMe : MonoBehaviour
             Card.GetComponent<CardBehaviour>().cardInSlot = false;
         }
         Card.GetComponent<CardBehaviour>().SizeDownCardOutside(Card.transform);
+        Card.GetComponent<CardBehaviour>().ChangeKin(Card.GetComponent<Rigidbody>());
     }
 
-
-//Assets/Scripts/SnapToMe.cs(23,45): error CS1503: Argument 1: cannot convert from 'method group' to 'UnityAction<PointerEvent>'
 }

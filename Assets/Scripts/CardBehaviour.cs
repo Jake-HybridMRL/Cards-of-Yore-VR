@@ -20,6 +20,16 @@ public class CardBehaviour : MonoBehaviour
 
     }
 
+    public void ChangeKin(Rigidbody rig){
+        if(!cardInSlot){
+            rig.isKinematic = false;
+        }
+
+        if(cardInSlot){
+            rig.isKinematic = true;
+        }
+    }
+
 
     public void SizeUpCard(Transform tran){
         if(!isZoomed){
