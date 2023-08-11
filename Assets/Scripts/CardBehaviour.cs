@@ -8,7 +8,10 @@ public class CardBehaviour : MonoBehaviour
 {
 
     public bool cardInSlot = false;
+    public bool cardCanSnap = true;
     public bool isZoomed = false;
+
+    public SnapToMe CurrentCardSlot = null;
     Vector3 scaleChange = new Vector3(0.4f,0.8f,0.12f);
 
     CharacterData _thisCardData;
@@ -25,21 +28,31 @@ public class CardBehaviour : MonoBehaviour
     TMP_Text _description;
     [SerializeField]
     Image _image;
+    Rigidbody rig = null;
 
+    bool _shouldBeKinematic = false;
     private GameObject _hologramObject = null;
+
+    public bool test = false;
 
     private static int _leftSatelliteCards, _wonderCards, _rightSatelliteCards = 0;
 
-
-
-    public void ChangeKin(Rigidbody rig){
-        if(!cardInSlot){
-            rig.isKinematic = false;
+    private void Update()
+    {
+        if (rig != null)
+            rig.isKinematic = _shouldBeKinematic;
+        if(cardInSlot)
+        {
+            transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
         }
+    }
 
-        if(cardInSlot){
-            rig.isKinematic = true;
-        }
+    public void ChangeKin(bool isKinematic){
+        _shouldBeKinematic = isKinematic;
+        gameObject.name = "test";
+        rig = GetComponent<Rigidbody>();
+        //rig.useGravity = false;
+        rig.isKinematic = isKinematic;     
     }
 
     public void PopulateCard(CharacterData cardData)
@@ -78,29 +91,30 @@ public class CardBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Location")
+        if (other.tag == "Location" && !cardInSlot)
         {
             if (other.gameObject.name == "Left satellite")
             {
-                PositionCard(other.transform, _leftSatelliteCards);
-                GetComponent<Rigidbody>().useGravity = false;
+                
+                //GetComponent<Rigidbody>().useGravity = false;
                 GetComponent<Rigidbody>().isKinematic = true;
+                PositionCard(other.transform, _leftSatelliteCards);
                 _leftSatelliteCards++;
             }
             else if (other.gameObject.name == "Right satellite")
             {
-                PositionCard(other.transform, _rightSatelliteCards);
-                GetComponent<Rigidbody>().useGravity = false;
+                
+                //GetComponent<Rigidbody>().useGravity = false;
                 GetComponent<Rigidbody>().isKinematic = true;
-
+                PositionCard(other.transform, _rightSatelliteCards);
                 _rightSatelliteCards++;
             }
             else if (other.gameObject.name == "Wonder")
             {
-                PositionCard(other.transform, _wonderCards);
-                GetComponent<Rigidbody>().useGravity = false;
+                
+                //GetComponent<Rigidbody>().useGravity = false;
                 GetComponent<Rigidbody>().isKinematic = true;
-
+                PositionCard(other.transform, _wonderCards);
                 _wonderCards++;
             }
         }
@@ -111,5 +125,6 @@ public class CardBehaviour : MonoBehaviour
         Vector3 cardOffset = new Vector3(.15f, 0, 0);
         Vector3 firstcardSlot = (playZone.position - cardOffset * 2.5f + new Vector3(0, 0.1f, 0));
         transform.position = firstcardSlot + cardOffset * currentCardCount;
+        transform.rotation = Quaternion.Euler(90, 0, 0);
     }
 }
