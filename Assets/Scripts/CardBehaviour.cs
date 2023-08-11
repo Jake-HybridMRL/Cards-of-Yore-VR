@@ -20,6 +20,7 @@ public class CardBehaviour : MonoBehaviour
 
     }
 
+
     public void SizeUpCard(Transform tran){
         if(!isZoomed){
             tran.localScale += scaleChange;
@@ -33,5 +34,13 @@ public class CardBehaviour : MonoBehaviour
             isZoomed = false;
         }
     }
+
+        public void SizeDownCardOutside(Transform tran){
+        if(isZoomed){
+            tran.localScale -= scaleChange*0.2f;
+            isZoomed = false;
+        }
+    }
+
 
 }
