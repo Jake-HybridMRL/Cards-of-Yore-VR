@@ -20,7 +20,6 @@ public class SnapToMe : MonoBehaviour
             PointableUnityEventWrapper wrapper = collider1.GetComponent <PointableUnityEventWrapper>();
             wrapper.WhenRelease.AddListener(SnapToSlot);
             wrapper.WhenRelease.RemoveListener(UnSnapToSlot);
-
         }
     }
 
