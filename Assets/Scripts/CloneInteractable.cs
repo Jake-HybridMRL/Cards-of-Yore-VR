@@ -17,6 +17,13 @@ public class CloneInteractable : MonoBehaviour
     [SerializeField]
     private Transform _handTransform;
 
+    public CharacterData[] characterDatas;
+
+
+    void Start()
+    {
+    }
+
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.name == "RightHandCollider") {
             _deckRenderer.material.color = Color.green;
@@ -38,7 +45,8 @@ public class CloneInteractable : MonoBehaviour
             var _handPos = new Vector3(_handTransform.position.x, _handTransform.position.y, _handTransform.position.z);
             Quaternion _handRot = Quaternion.Euler(new Vector3(_handTransform.rotation.x, _handTransform.rotation.y, _handTransform.rotation.z));
             _canGrabCard = false;
-            GameObject.Instantiate(_cardObject, _handPos, _handRot);
+            GameObject cards = GameObject.Instantiate(_cardObject, _handPos, _handRot);
+            cards.GetComponent<CardBehaviour>().PopulateCard(characterDatas[Random.Range(0, characterDatas.Length)]);
         }
         _deckRenderer.material.color = Color.blue;
         _handGrabInteractor.ForceRelease();
