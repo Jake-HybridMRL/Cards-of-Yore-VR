@@ -46,6 +46,7 @@ public class CloneInteractable : MonoBehaviour
             Quaternion _handRot = Quaternion.Euler(new Vector3(_handTransform.rotation.x, _handTransform.rotation.y, _handTransform.rotation.z));
             _canGrabCard = false;
             GameObject cards = GameObject.Instantiate(_cardObject, _handPos, Quaternion.Euler(90,0,0));
+            cards.name = "Card";
             cards.GetComponent<CardBehaviour>().PopulateCard(characterDatas[Random.Range(0, characterDatas.Length)]);
         }
         _deckRenderer.material.color = Color.blue;

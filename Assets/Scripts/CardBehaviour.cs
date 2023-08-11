@@ -34,6 +34,7 @@ public class CardBehaviour : MonoBehaviour
     private GameObject _hologramObject = null;
 
     public bool test = false;
+    private bool _cooldown = false;
 
     private static int _leftSatelliteCards, _wonderCards, _rightSatelliteCards = 0;
 
@@ -91,8 +92,10 @@ public class CardBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Location" && !cardInSlot)
+        if (other.tag == "Location" && !cardInSlot && !_cooldown)
         {
+            _cooldown = true;
+            StartCoroutine(PlaceCooldown());
             if (other.gameObject.name == "Left satellite")
             {
                 
@@ -118,6 +121,12 @@ public class CardBehaviour : MonoBehaviour
                 _wonderCards++;
             }
         }
+    }
+
+    IEnumerator PlaceCooldown()
+    {
+        yield return new WaitForSeconds(1);
+        _cooldown = false;
     }
 
     void PositionCard(Transform playZone, int currentCardCount)
