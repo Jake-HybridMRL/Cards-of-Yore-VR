@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardBehaviour : MonoBehaviour
 {
@@ -9,11 +11,25 @@ public class CardBehaviour : MonoBehaviour
     public bool isZoomed = false;
     Vector3 scaleChange = new Vector3(0.4f,0.8f,0.12f);
 
-    [SerializeField]
     CharacterData _thisCardData;
-    private static int _leftSatelliteCards, _wonderCards, _rightSatelliteCards = 0;
+
     [SerializeField]
+    TMP_Text _name;
+    [SerializeField]
+    TMP_Text _cost;
+    [SerializeField]
+    TMP_Text _power;
+    [SerializeField]
+    TMP_Text _health;
+    [SerializeField]
+    TMP_Text _description;
+    [SerializeField]
+    Image _image;
+
     private GameObject _hologramObject = null;
+
+    private static int _leftSatelliteCards, _wonderCards, _rightSatelliteCards = 0;
+
 
 
     public void ChangeKin(Rigidbody rig){
@@ -24,6 +40,18 @@ public class CardBehaviour : MonoBehaviour
         if(cardInSlot){
             rig.isKinematic = true;
         }
+    }
+
+    public void PopulateCard(CharacterData cardData)
+    {
+        _thisCardData = cardData;
+        _name.text = _thisCardData.name.ToString();
+        _cost.text = _thisCardData.mana.ToString();
+        _power.text = _thisCardData.attack.ToString();
+        _health.text = _thisCardData.health.ToString();
+        _description.text = _thisCardData.description;
+        _image.sprite = _thisCardData.artwork;
+        _hologramObject = _thisCardData.hologram;
     }
 
 
@@ -81,7 +109,7 @@ public class CardBehaviour : MonoBehaviour
     void PositionCard(Transform playZone, int currentCardCount)
     {
         Vector3 cardOffset = new Vector3(.15f, 0, 0);
-        Vector3 firstcardSlot = (playZone.position - cardOffset * 2 + new Vector3(0, 0.1f, 0));
+        Vector3 firstcardSlot = (playZone.position - cardOffset * 2.5f + new Vector3(0, 0.1f, 0));
         transform.position = firstcardSlot + cardOffset * currentCardCount;
     }
 }
